@@ -11,7 +11,7 @@ import {
 } from '@jupyterlab/docregistry';
 import { Contents, Kernel, ServiceManager } from '@jupyterlab/services';
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
-import { ArrayExt, find } from '@lumino/algorithm';
+import { ArrayExt, find, toArray } from '@lumino/algorithm';
 import { UUID } from '@lumino/coreutils';
 import { IDisposable } from '@lumino/disposable';
 import { AttachedProperty } from '@lumino/properties';
@@ -39,7 +39,6 @@ export class DocumentManager implements IDocumentManager {
     this.translator = options.translator || nullTranslator;
     this.registry = options.registry;
     this.services = options.manager;
-    this._collaborative = !!options.collaborative;
     this._dialogs = options.sessionDialogs || sessionContextDialogs;
     this._docProviderFactory = options.docProviderFactory;
 
@@ -571,7 +570,7 @@ export class DocumentManager implements IDocumentManager {
     }
 
     let fileType: DocumentRegistry.IFileType | undefined = undefined;
-    for (const ft of this.registry.fileTypes()) {
+    for (const ft of toArray(this.registry.fileTypes())) {
       if (ft.name === modelName) {
         fileType = ft;
         break;
@@ -652,7 +651,6 @@ export class DocumentManager implements IDocumentManager {
   private _setBusy: (() => IDisposable) | undefined;
   private _dialogs: ISessionContext.IDialogs;
   private _docProviderFactory: IDocumentProviderFactory | undefined;
-  private _collaborative: boolean;
 }
 
 /**
