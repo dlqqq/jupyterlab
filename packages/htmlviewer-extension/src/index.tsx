@@ -102,7 +102,8 @@ function activateHTMLViewer(
     displayName: trans.__('HTML File'),
     extensions: ['.html'],
     mimeTypes: ['text/html'],
-    icon: html5Icon
+    icon: html5Icon,
+    collaborative: true
   };
   app.docRegistry.addFileType(ft);
 
